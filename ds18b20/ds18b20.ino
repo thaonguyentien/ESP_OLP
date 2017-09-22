@@ -14,7 +14,7 @@ DallasTemperature DS18B20(&ds);
 const char* default_mqtt_server="192.168.0.11";
 const int default_mqtt_port= 1883;
 const char* topic_pub="icse/sensor";
-String topic_sub="icse/led";
+const char* topic_sub="icse/led";
 char temperatureCString[10];
 float temp;
 String led_status="OFF";
@@ -72,7 +72,7 @@ void reconnect() {
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       client.publish("outTopic", "hello world");
-      client.subscribe(topic_sub.c_str());
+      client.subscribe(topic_sub);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -96,7 +96,7 @@ float getTemperature(){
 
 void setup(){
   Serial.begin(115200);
-  client.setServer(default_mqtt_server, 1883);
+  client.setServer(default_mqtt_server, default_mqtt_port);
     Serial.print("Connectting");
   WiFi.begin(ssid,password);
   while(WiFi.status() != WL_CONNECTED){
