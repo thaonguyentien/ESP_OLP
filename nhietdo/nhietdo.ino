@@ -11,11 +11,11 @@ WiFiClient client;
 OneWire  ds(2);  // on pin D4 (a 4.7K resistor is necessary)
 DallasTemperature DS18B20(&ds);
 // Wi-Fi Settings
-const char* ssid = "NTT_TNN_1"; // your wireless network name (SSID)
-const char* password = "thao0983451175"; // your Wi-Fi network password
+const char* ssid = "HPCC-IOT"; // your wireless network name (SSID)
+const char* password = "hpcc_iot"; // your Wi-Fi network password
 const int postingInterval = 2 * 1000; // post data every 2 seconds
 const char* server = "http://192.168.0.5:8086";
-byte host[] = {192, 168,0 ,9};
+byte host[] = {192, 168,1 ,100};
 int port = 8086;
 WiFiUDP udp;
 

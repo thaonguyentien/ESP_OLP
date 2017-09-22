@@ -19,7 +19,7 @@ void getTemperature() {
   if(i%2==0)
   {
     digitalWrite(ledPin, HIGH);// sets the LED on
-    temperatureCString="Hello World";
+    temperatureCString="Hello World huhihihihihihihihi";
     i++;
   }
   else{
