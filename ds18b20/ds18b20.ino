@@ -129,7 +129,6 @@ void send_data(){
 //    Serial.print(JSONmessageBuffer);
 //    Serial.printf("\n");
     client.publish(topic_pub,JSONmessageBuffer);
-//    client.loop();
   }
   return;
 }
