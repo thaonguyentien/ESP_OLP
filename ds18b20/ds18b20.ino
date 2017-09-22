@@ -11,7 +11,7 @@ OneWire ds(2);
 DallasTemperature DS18B20(&ds);
 
 //Config mqttt
-const char* default_mqtt_server="192.168.1.100";
+const char* default_mqtt_server="192.168.0.11";
 const int default_mqtt_port= 1883;
 const char* topic_pub="icse/sensor";
 String topic_sub="icse/led";
@@ -20,8 +20,8 @@ float temp;
 String led_status="OFF";
 int led=3;
 // Wifi setting
-const char* ssid="HPCC-IOT";
-const char* password="hpcc_iot";
+const char* ssid="NTT_TNN_1";
+const char* password="thao0983451175";
 
 StaticJsonBuffer<300> JSONbuffer;
 JsonObject& JSONencoder = JSONbuffer.createObject();
