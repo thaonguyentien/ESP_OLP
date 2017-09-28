@@ -11,7 +11,7 @@ OneWire ds(2);
 DallasTemperature DS18B20(&ds);
 
 //Config mqttt
-const char* default_mqtt_server="192.168.1.100";
+const char* default_mqtt_server="192.168.1.11";
 const int default_mqtt_port= 1883;
 const char* topic_pub="icse/sensor";
 const char* topic_sub="icse/led";
@@ -21,37 +21,41 @@ String led_status="OFF";
 int led=3;
 // Wifi setting
 const char* ssid="HPCC-IOT";
-const char* password="hpcc_iot";
+const char* password="hpcc_iot_icse";
 
 StaticJsonBuffer<300> JSONbuffer;
 JsonObject& JSONencoder = JSONbuffer.createObject();
 
 WiFiClient espClient;
 
-void callback(char* topic_sub, byte* payload, unsigned int length) {
-  
- char inData[80];
- Serial.print("payload: ");
- char payload_string[100];
- strncpy(payload_string, (char*)payload,sizeof(payload_string));
- Serial.print(payload_string);
- Serial.print("\n");
- StaticJsonBuffer<200> JSONbuffer_1;
-
-  JsonObject& payload_json = JSONbuffer_1.parseObject(payload_string);
-  String status1 = payload_json["status"];
-  Serial.print("\n");
-
- Serial.print(status1);
- pinMode(3,OUTPUT);
-//  Serial.print(led_status);
-  if(status1 == "ON") {
-    batLed();
-  }else{
-    tatLed();
-    Serial.print("Off");
+void callback(char* topic, byte* payload, unsigned int length) {
+  if(strcmp(topic,topic_sub)==0){
+    payload[length] = '\0';
+      Serial.print((char*)payload);
+     char inData[80];
+     Serial.print("payload: ");
+     char payload_string[100];
+     strncpy(payload_string, (char*)payload,sizeof(payload_string));
+     Serial.print(payload_string);
+     Serial.print("\n");
+     StaticJsonBuffer<200> JSONbuffer_1;
+    
+      JsonObject& payload_json = JSONbuffer_1.parseObject(payload_string);
+      String status1 = payload_string
+      Serial.print("\n");
+    
+     Serial.print(status1);
+     pinMode(3,OUTPUT);
+    //  Serial.print(led_status);
+      if(status1 == "ON") {
+        batLed();
+      }else{
+        tatLed();
+        Serial.print("Off");
+      }
+     Serial.println();
   }
- Serial.println();
+ 
  
 }
 
