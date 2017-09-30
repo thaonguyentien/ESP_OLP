@@ -2,13 +2,13 @@
 
 ## addParameter
 
-add các tham số khác như mqtt_server,mqtt_port trước khi autoConnect.
+- add các tham số khác như mqtt_server,mqtt_port trước khi autoConnect.
 
-Sử dụng : 
+- Sử dụng : 
     `WiFiManagerParameter custom_mqtt_server("server", "mqtt server", default_mqtt_server, 40);`
     Để tạo tham số về server của mqtt.
 
-Sử dụng: `wifiManager.addParameter(&custom_text)` để thêm giao diện cho than số đó vào giao diện web.
+- Sử dụng: `wifiManager.addParameter(&custom_text)` để thêm giao diện cho than số đó vào giao diện web.
 
 - Sau khi người dùng chỉnh sửa các tham số(như mqtt_server hoặc mqtt_port) và sau khi đã connect thành công vào wifi ta có thể sử dụng câu lệnh để đọc các giá trị được người dùng nhập vào `custom_mqtt_server.getValue()` để lấy giá trị được nhập vào và xử lý.
 
