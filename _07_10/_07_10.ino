@@ -7,7 +7,7 @@ SH1106  display(0x3c, 4, 5);
 
 //DHT Settings
 #define DHTPIN 16
-#define DHTTYPE DHT22 
+#define DHTTYPE DHT11 
 DHT dht(DHTPIN, DHTTYPE);
 
 int  led1=2;
@@ -16,11 +16,11 @@ int led2=10;
 
 
 // Wi-Fi Settings
-const char* ssid = "NTT_TNN_1"; // your wireless network name (SSID)
-const char* password = "thao0983451175"; // your Wi-Fi network password
+const char* ssid = "HPCC*"; // your wireless network name (SSID)
+const char* password = "hpcc*@)!&"; // your Wi-Fi network password
 
 //MQTT Settings
-const char* default_mqtt_server="192.168.0.11";
+const char* default_mqtt_server="10.0.0.221";
 const char* default_mqtt_port="1883";
 const char* topic_pub="icse/sensor";
 const char* topic_sub="icse/action";
@@ -53,7 +53,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       String led1_status=payload_json["led1"];
       String led2_status=payload_json["led2"];
       
-     if(led1_status == "ON"){
+     if(led2_status == "ON"){
        digitalWrite(led2,HIGH);
      }else{
       digitalWrite(led2,LOW);
