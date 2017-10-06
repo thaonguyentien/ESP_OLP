@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "HPCC-IOT";
-const char* password = "hpcc_iot";
+const char* ssid = "NTT_TNN_1";
+const char* password = "thao0983451175";
 
 IPAddress staticIP(192,168,1,22);
 IPAddress gateway(192,168,1,9);
