@@ -60,6 +60,8 @@ root.printTo(Serial);
 // {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
 ```
 
+:tada
+
 ## 4. OLED
 
 ## 5. Cảm biến ánh sáng
