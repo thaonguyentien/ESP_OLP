@@ -4,11 +4,14 @@ SH1106  display(0x3c, 4, 5);
 #include <DHT.h>
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
 
 //DHT Settings
 #define DHTPIN 16
 #define DHTTYPE DHT11 
 DHT dht(DHTPIN, DHTTYPE);
+
 
 int  led1=2;
 int led2=10;
@@ -16,11 +19,11 @@ int led2=10;
 
 
 // Wi-Fi Settings
-const char* ssid = "HPCC*"; // your wireless network name (SSID)
-const char* password = "hpcc*@)!&"; // your Wi-Fi network password
+const char* ssid = "NTT_TNN_1"; // your wireless network name (SSID)
+const char* password = "thao0983451175"; // your Wi-Fi network password
 
 //MQTT Settings
-const char* default_mqtt_server="10.0.0.221";
+const char* default_mqtt_server="192.168.0.11";
 const char* default_mqtt_port="1883";
 const char* topic_pub="icse/sensor";
 const char* topic_sub="icse/action";
@@ -29,6 +32,7 @@ const char* topic_sub="icse/action";
 float temp,humi;
 char data[80];
 char temperatureCString[10];
+char humiString[10];
 unsigned long timeLastCheck = 0;
 unsigned long intervalCheck = 5000;
 
@@ -36,6 +40,13 @@ StaticJsonBuffer<300> JSONbuffer;
 JsonObject& JSONencoder = JSONbuffer.createObject();
 
 WiFiClient espClient;
+
+void configModeCallback (WiFiManager *myWiFiManager) {
+  Serial.println("Entered config mode");
+  Serial.println(WiFi.softAPIP());
+
+  Serial.println(myWiFiManager->getConfigPortalSSID());
+}
 
 void callback(char* topic, byte* payload, unsigned int length) {
   // handle message arrived
@@ -69,9 +80,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
      Serial.println();
   }
   
-
-  
-
 }
 
 PubSubClient client(espClient);
@@ -109,14 +117,31 @@ void setup() {
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_24);
   Serial.printf("Connecting to %s \n", ssid);
-  WiFi.begin(ssid,password);
+//  WiFi.begin(ssid,password);
   
-  while(WiFi.status() != WL_CONNECTED){
-    delay(500);
-    Serial.print(".");
+//  while(WiFi.status() != WL_CONNECTED){
+//    delay(500);
+//    Serial.print(".");
+//    
+//  }
+  
+    WiFiManager wifiManager;
+    wifiManager.setAPCallback(configModeCallback);
+
+    WiFiManagerParameter custom_mqtt_server("server", "mqtt server", default_mqtt_server, 40);
+    WiFiManagerParameter custom_mqtt_port("port", "mqtt port", default_mqtt_port, 6);
+    WiFiManagerParameter custom_text("Ahihi");
+    wifiManager.addParameter(&custom_mqtt_server);
+    wifiManager.addParameter(&custom_mqtt_port);
+    wifiManager.addParameter(&custom_text);
+        if (!wifiManager.autoConnect("THAO_ESP")) {
+      Serial.println("failed to connect, we should reset as see if it connects");
+      delay(3000);
+      ESP.reset();
+      delay(5000);
+    }
+    Serial.println("connected...yeey");
     
-  }
-  
   
   Serial.print("\n CONNECTED SUCCESS\n ");
   Serial.println(WiFi.localIP());
@@ -157,7 +182,9 @@ void loop() {
       timeLastCheck=timeNow;
       display.clear();
       dtostrf(temp, 2, 2, temperatureCString);
-      display.drawString(0, 0, temperatureCString);
+      dtostrf(humi, 2, 2, humiString);
+      display.drawString(0, 0, "T  = "+ String(temperatureCString));
+      display.drawString(0, 30,"RH ="  + String(humiString));
       display.display();
       send_data();
       client.loop();
