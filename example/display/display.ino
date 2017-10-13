@@ -43,7 +43,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Serial.print("  Reading \n");
-  getTemperature();
+//  getTemperature();
   display.clear();
   display.drawString(0, 0, temperatureCString);
   Serial.print(temperatureCString);

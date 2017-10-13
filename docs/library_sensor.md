@@ -119,8 +119,8 @@ void loop(){
 
 ## 5. Cảm biến ánh sáng
 
-Sử dụng digitalRead để đọc dữ liệu trả về trên con cảm biến ánh sáng. Giá trị trả về sẽ là 0 hoặc 1.
-
+- Sử dụng digitalRead để đọc dữ liệu trả về trên con cảm biến ánh sáng. Giá trị trả về sẽ là 0 hoặc 1.
+- Sử dụng analogRead để đọc dữ liêu analog trả về trên con cảm biến ảnh sáng.
 ## 6. Kết nối wifi
 
 ```cpp
