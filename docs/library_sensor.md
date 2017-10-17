@@ -261,3 +261,22 @@ Serial.print("Soft-AP IP address = ");
 Serial.println(WiFi.softAPIP());
 
 ```
+
+## 10. Xung PWM
+
+Xung là các trạng thái cao/thấp về mức điện áp được lặp đi lặp lại. Một xung được đặc trưng bởi tần số và chu kỳ.
+
+- Tần số là số lần lặp trong một đơn vị thời gian. Đơn vị là Hz, tức là số lần lặp trong 1 giây.
+- Chu kỳ xung cho biết trong 1 dao động có bao nhiêu thời gian điện áp ở mức cao bao nhiêu thời gian điện áp ở mức thấp. Cụ thể liên hệ với arduino như bảng sau:
+
+AnalogWrite | Tỷ lệ | Chu kỳ xung
+---------|----------|---------
+ analogWrite(0)	   | 0/255		 | 0%
+ analogWrite(64)	 | 64/255	   | 25%
+ analogWrite(127)	 | 127/255   | 50%
+ analogWrite(191)	 | 191/255	 | 75% 
+ analogWrite(255)	 | 255/255	 | 100%
+
+ Hàm analogWrite() trong arduino giúp cho việc tạo xung dễ dàng hơn. Hàm này cho phép bạn thay đổi chu kỳ xung còn tần số là giá trị mặc định của arduino.
+
+Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.
