@@ -280,3 +280,19 @@ AnalogWrite | Tỷ lệ | Chu kỳ xung
  Hàm analogWrite() trong arduino giúp cho việc tạo xung dễ dàng hơn. Hàm này cho phép bạn thay đổi chu kỳ xung còn tần số là giá trị mặc định của arduino.
 
 Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.
+
+11. Memmory
+
+Có 3 bộ nhớ:
+
+- Flash memmory: Nơi mà Arduino sketch được lưu trữ
+- SRAM: nơi mà sketch được tạo và chứa các biến khi chạy.
+- EEPROM: Là vùng bộ nhớ trống cho phép lập trình viên có thể lưu trữ thông tin lâu dài.
+
+Flash và EEPROM là vùng nhớ tồn tại cả khi mất điện. SRAM sẽ mất khi mất điện.
+
+Dung lượng bộ nhớ ATmega328:
+
+- Flash  32k bytes (of which .5k is used for the bootloader)
+- SRAM   2k bytes
+- EEPROM 1k byte
