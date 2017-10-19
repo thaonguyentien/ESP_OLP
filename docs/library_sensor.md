@@ -307,13 +307,41 @@ Modules ESP8266 có 4 chế độ Sleep:
 
 Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
 
-![hi](i)
-
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 
 - No-sleep: Chế độ này sẽ giữ mọi thứ ở trạng thái on.
 - Modem-sleep: Đây là chế độ mặc định của ESP8266. Tuy nhiên chế độ này chỉ được bật khi ESP8266 đã được kết nối tới một điểm truy cập wifi. Ở chế độ này ESP8266 sẽ disable wifi nhiều nhất có thể. Nó sẽ turn off wifi giữa các lần DTIM beacon.
 - Light-sleep: Chế độ này ở mức cao hơn của chế độ modem-sleep. Nó có các tính năng tương tự chế độ modem-sleep nhưng nó cũng tắt system clock và suspend CPU. Chú ý CPU không tắt nó chỉ không hoạt động.
 - Deep-sleep: Tất cả mọi thứ sẽ off nhưng Real Time Clock (RTC) nơi mà sẽ lưu trữ thời gian của hệ thống. Khi mọi thứ turn off đây là một giải pháp năng lượng hiệu quả.
 
-
 ### Deepsleep
+
+Với chế độ deep-sleep flow của chương trình sẽ như sau:
+1. Thực hiện một vài hành động.
+1. Sleep n giây
+1. Lặp lại
+
+Để có thể enable chế độ deep-sleep chúng ta cần nối pin GPI016 với pin RST trên port arduino. Cụ thể pin RST sẽ ở trạng thái HIGH trong khi module ESP8266 đang chạy. Khi pin RST nhận được tín hiệu LOW nó sẽ khởi động lại microcontroller. Trong trạng thái deep-sleep, khi thời gian ngủ đã hết nó sẽ gửi tín hiệu LOW tới pin GPIO16. Do vậy cần kết nối pin RST với pin GPIO16 để đánh thức thiết bị khi thời gian deep-sleep kết thúc.
+
+Ví dụ:
+```cpp
+/**
+ * An example showing how to put ESP8266 into Deep-sleep mode
+ */
+ 
+void setup() {
+  Serial.begin(115200);
+  Serial.setTimeout(2000);
+
+  // Wait for serial to initialize.
+  while(!Serial) { }
+  
+  Serial.println("I'm awake.");
+
+  Serial.println("Going into deep sleep for 20 seconds");
+  ESP.deepSleep(20e6); // 20e6 is 20 microseconds
+}
+
+void loop() {
+}
+```
