@@ -281,7 +281,7 @@ AnalogWrite | Tỷ lệ | Chu kỳ xung
 
 Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.
 
-11. Memmory
+## 11. Memmory
 
 Có 3 bộ nhớ:
 
@@ -296,3 +296,24 @@ Dung lượng bộ nhớ ATmega328:
 - Flash  32k bytes (of which .5k is used for the bootloader)
 - SRAM   2k bytes
 - EEPROM 1k byte
+
+## 12. Sleep
+
+Modules ESP8266 có 4 chế độ Sleep:
+- No-sleep
+- Modem-sleep
+- Light-sleep
+- Deep-sleep
+
+Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
+
+![hi](i)
+
+
+- No-sleep: Chế độ này sẽ giữ mọi thứ ở trạng thái on.
+- Modem-sleep: Đây là chế độ mặc định của ESP8266. Tuy nhiên chế độ này chỉ được bật khi ESP8266 đã được kết nối tới một điểm truy cập wifi. Ở chế độ này ESP8266 sẽ disable wifi nhiều nhất có thể. Nó sẽ turn off wifi giữa các lần DTIM beacon.
+- Light-sleep: Chế độ này ở mức cao hơn của chế độ modem-sleep. Nó có các tính năng tương tự chế độ modem-sleep nhưng nó cũng tắt system clock và suspend CPU. Chú ý CPU không tắt nó chỉ không hoạt động.
+- Deep-sleep: Tất cả mọi thứ sẽ off nhưng Real Time Clock (RTC) nơi mà sẽ lưu trữ thời gian của hệ thống. Khi mọi thứ turn off đây là một giải pháp năng lượng hiệu quả.
+
+
+### Deepsleep

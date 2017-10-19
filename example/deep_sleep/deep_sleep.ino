@@ -11,8 +11,8 @@ void setup() {
   
   Serial.println("I'm awake.");
 
-  Serial.println("Going into deep sleep for 2 seconds");
-  ESP.deepSleep(2e6); // 2e6 is 2 microseconds
+  Serial.println("Going into deep sleep for 20 seconds");
+  ESP.deepSleep(20e6); // 20e6 is 20 microseconds
 }
 
 void loop() {
