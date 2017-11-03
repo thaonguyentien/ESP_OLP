@@ -8,7 +8,7 @@ a server that supports MQTT.
 The library comes with a number of example sketches. See File > Examples > PubSubClient
 within the Arduino application.
 
-Full API documentation is available here: http://pubsubclient.knolleary.net
+Full API documentation is available here: http://knolleary.github.io/pubsubclient/
 
 ## Limitations
 
@@ -33,8 +33,7 @@ boards and shields, including:
    be sure to do a `Bridge.begin()` first
  - Arduino WiFi Shield - if you want to send packets > 90 bytes with this shield,
    enable the `MQTT_MAX_TRANSFER_SIZE` define in `PubSubClient.h`.
- - Sparkfun WiFly Shield – [library](https://github.com/dpslwk/WiFly)
- - TI CC3000 WiFi - [library](https://github.com/sparkfun/SFE_CC3000_Library)
+ - Sparkfun WiFly Shield – when used with [this library](https://github.com/dpslwk/WiFly)
  - Intel Galileo/Edison
  - ESP8266
 

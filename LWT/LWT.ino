@@ -1,48 +1,22 @@
-#include "SH1106.h"
-SH1106  display(0x3c, 4, 5);
 #include <ESP8266WiFi.h>
-#include <DHT.h>
-#include <ArduinoJson.h>
 #include <PubSubClient.h>
-#include <ESP8266WebServer.h>
 #include <WiFiManager.h>
-
-//DHT Settings
-#define DHTPIN 16
-#define DHTTYPE DHT11 
-DHT dht(DHTPIN, DHTTYPE);
-
 
 byte willQoS = 2;
 const char* willTopic = "willTopic";
 const char* willMessage = "My Will Message";
 boolean willRetain = false;
 
-int led1=2;
-int led2=10;
-
-
-
 // Wi-Fi Settings
 const char* ssid = "HPCC-IOT"; // your wireless network name (SSID)
 const char* password = "hpcc_iot_icse"; // your Wi-Fi network password
 
 //MQTT Settings
-const char* default_mqtt_server="192.168.0.11";
+const char* default_mqtt_server="192.168.1.17";
 const char* default_mqtt_port="1883";
 const char* topic_pub="icse/sensor";
 const char* topic_sub="icse/action";
 
-
-float temp,humi;
-char data[80];
-char temperatureCString[10];
-char humiString[10];
-unsigned long timeLastCheck = 0;
-unsigned long intervalCheck = 5000;
-
-StaticJsonBuffer<300> JSONbuffer;
-JsonObject& JSONencoder = JSONbuffer.createObject();
 
 WiFiClient espClient;
 
@@ -63,23 +37,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
      strncpy(payload_string, (char*)payload,sizeof(payload_string));
      Serial.print(payload_string);
      Serial.print("\n");
-     StaticJsonBuffer<200> JSONbuffer_1;
-    
-      JsonObject& payload_json = JSONbuffer_1.parseObject(payload_string);
-      String led1_status=payload_json["led1"];
-      String led2_status=payload_json["led2"];
-      
-     if(led2_status == "ON"){
-       digitalWrite(led2,HIGH);
-     }else{
-      digitalWrite(led2,LOW);
-     }
-     
-     if(led1_status == "ON"){
-       digitalWrite(led1,HIGH);
-     }else{
-      digitalWrite(led1,LOW);
-     }
+
      
      
      Serial.println();
@@ -119,12 +77,7 @@ void reconnect() {
 
 void setup() {
   Serial.begin(115200);
-  pinMode(led1,OUTPUT);
-  pinMode(led2,OUTPUT);
-  dht.begin();
-  display.init();
-  display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_24);
+  
   Serial.printf("Connecting to %s \n", ssid);
 //  WiFi.begin(ssid,password);
   
@@ -158,48 +111,14 @@ void setup() {
 }
 
 
-void send_data(){
-  
-  temp=dht.readTemperature();
-  humi=dht.readHumidity();
-  
-  if(isnan(temp) || isnan(humi)){
-    Serial.println("Failed to read from DHT sensor!");
-    client.publish("icse/sensor","Failed");
-  }else{
-    JSONencoder["tem"] = temp;
-    JSONencoder["humi"] = humi;
-    char JSONmessageBuffer[100];
-    JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-    Serial.print(JSONmessageBuffer);
-    Serial.printf("\n");
-    client.publish("icse/sensor",JSONmessageBuffer);
-    
-    return;
-  }
-  return;
-  
-}
-
 void loop() {
     if (!client.connected()) {
       reconnect();
     }
-    unsigned long timeNow = millis();
-    if ( timeLastCheck == 0 || timeNow-timeLastCheck > intervalCheck ){ 
-      timeLastCheck=timeNow;
-      display.clear();
-      dtostrf(temp, 2, 2, temperatureCString);
-      dtostrf(humi, 2, 2, humiString);
-      display.drawString(0, 0, "T  = "+ String(temperatureCString));
-      display.drawString(0, 30,"RH ="  + String(humiString));
-      display.display();
-      send_data();
-      
-    }
+   client.publish("myTopic","hihi");
    client.loop();
   
-//  delay(1000);
+  delay(1000);
   
   
 }

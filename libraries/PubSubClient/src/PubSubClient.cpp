@@ -122,7 +122,7 @@ boolean PubSubClient::connect(const char *id, const char *user, const char *pass
         } else {
             result = _client->connect(this->ip, this->port);
         }
-        if (result == 1) {
+        if (result) {
             nextMsgId = 1;
             // Leave room in the buffer for header and variable length field
             uint16_t length = 5;
@@ -177,7 +177,7 @@ boolean PubSubClient::connect(const char *id, const char *user, const char *pass
 
             while (!_client->available()) {
                 unsigned long t = millis();
-                if (t-lastInActivity >= ((int32_t) MQTT_SOCKET_TIMEOUT*1000UL)) {
+                if (t-lastInActivity > MQTT_KEEPALIVE*1000UL) {
                     _state = MQTT_CONNECTION_TIMEOUT;
                     _client->stop();
                     return false;
@@ -205,33 +205,14 @@ boolean PubSubClient::connect(const char *id, const char *user, const char *pass
     return true;
 }
 
-// reads a byte into result
-boolean PubSubClient::readByte(uint8_t * result) {
-   uint32_t previousMillis = millis();
-   while(!_client->available()) {
-     uint32_t currentMillis = millis();
-     if(currentMillis - previousMillis >= ((int32_t) MQTT_SOCKET_TIMEOUT * 1000)){
-       return false;
-     }
-   }
-   *result = _client->read();
-   return true;
-}
-
-// reads a byte into result[*index] and increments index
-boolean PubSubClient::readByte(uint8_t * result, uint16_t * index){
-  uint16_t current_index = *index;
-  uint8_t * write_address = &(result[current_index]);
-  if(readByte(write_address)){
-    *index = current_index + 1;
-    return true;
-  }
-  return false;
+uint8_t PubSubClient::readByte() {
+    while(!_client->available()) {}
+    return _client->read();
 }
 
 uint16_t PubSubClient::readPacket(uint8_t* lengthLength) {
     uint16_t len = 0;
-    if(!readByte(buffer, &len)) return 0;
+    buffer[len++] = readByte();
     bool isPublish = (buffer[0]&0xF0) == MQTTPUBLISH;
     uint32_t multiplier = 1;
     uint16_t length = 0;
@@ -240,7 +221,7 @@ uint16_t PubSubClient::readPacket(uint8_t* lengthLength) {
     uint8_t start = 0;
 
     do {
-        if(!readByte(&digit)) return 0;
+        digit = readByte();
         buffer[len++] = digit;
         length += (digit & 127) * multiplier;
         multiplier *= 128;
@@ -249,8 +230,8 @@ uint16_t PubSubClient::readPacket(uint8_t* lengthLength) {
 
     if (isPublish) {
         // Read in topic length to calculate bytes to skip over for Stream writing
-        if(!readByte(buffer, &len)) return 0;
-        if(!readByte(buffer, &len)) return 0;
+        buffer[len++] = readByte();
+        buffer[len++] = readByte();
         skip = (buffer[*lengthLength+1]<<8)+buffer[*lengthLength+2];
         start = 2;
         if (buffer[0]&MQTTQOS1) {
@@ -260,7 +241,7 @@ uint16_t PubSubClient::readPacket(uint8_t* lengthLength) {
     }
 
     for (uint16_t i = start;i<length;i++) {
-        if(!readByte(&digit)) return 0;
+        digit = readByte();
         if (this->stream) {
             if (isPublish && len-*lengthLength-2>skip) {
                 this->stream->write(digit);
@@ -348,10 +329,6 @@ boolean PubSubClient::publish(const char* topic, const char* payload) {
     return publish(topic,(const uint8_t*)payload,strlen(payload),false);
 }
 
-boolean PubSubClient::publish(const char* topic, const char* payload, boolean retained) {
-    return publish(topic,(const uint8_t*)payload,strlen(payload),retained);
-}
-
 boolean PubSubClient::publish(const char* topic, const uint8_t* payload, unsigned int plength) {
     return publish(topic, payload, plength, false);
 }
@@ -428,7 +405,7 @@ boolean PubSubClient::write(uint8_t header, uint8_t* buf, uint16_t length) {
     uint8_t llen = 0;
     uint8_t digit;
     uint8_t pos = 0;
-    uint16_t rc;
+    uint8_t rc;
     uint16_t len = length;
     do {
         digit = len % 128;
@@ -447,7 +424,7 @@ boolean PubSubClient::write(uint8_t header, uint8_t* buf, uint16_t length) {
 
 #ifdef MQTT_MAX_TRANSFER_SIZE
     uint8_t* writeBuf = buf+(4-llen);
-    uint16_t bytesRemaining = length+1+llen;  //Match the length type
+    uint8_t bytesRemaining = length+1+llen;
     uint8_t bytesToWrite;
     boolean result = true;
     while((bytesRemaining > 0) && result) {
@@ -570,7 +547,7 @@ PubSubClient& PubSubClient::setServer(const char * domain, uint16_t port) {
     return *this;
 }
 
-PubSubClient& PubSubClient::setCallback(MQTT_CALLBACK_SIGNATURE) {
+PubSubClient& PubSubClient::setCallback(void(*callback)(char*,uint8_t*,unsigned int)){
     this->callback = callback;
     return *this;
 }
