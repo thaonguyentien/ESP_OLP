@@ -23,28 +23,6 @@ void setup()
 void loop()
 {
   Pin_Status = digitalRead(InputPin);
-  if (Pin_Status == HIGH)
-  {
-    if (PIR_State == LOW)
-    {
-      display.clear();
-      display.setFont(ArialMT_Plain_16);
-      display.drawString(30, 20, "Motion");
-      display.display();
-      digitalWrite(ledPin, LOW);
-      PIR_State = HIGH;
-    }
-  }
-  else
-  {
-    if (PIR_State == HIGH)
-    {
-      display.clear();
-      display.setFont(ArialMT_Plain_16);
-      display.drawString(20, 20, "Not Motion");
-      display.display();
-      digitalWrite(ledPin, HIGH);
-      PIR_State = LOW;
-    }
-  }
+  Serial.println(Pin_Status);
+  delay(2000);
 }

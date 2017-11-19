@@ -10,8 +10,8 @@ OneWire  ds(2);  // on pin D4 (a 4.7K resistor is necessary)
 DallasTemperature DS18B20(&ds);
 // bạn thay đổi thông tin bên dưới cho phù hợp
 const char* ssid =         "HPCC-IOT";
-const char* password =    "hpcc_iot";
-const char* mqtt_server = "192.168.1.100";   /// lấy ip bằng lệnh ifconfig, ví dụ 192.168.1.105
+const char* password =    "hpcc_iot_icse";
+const char* mqtt_server = "192.168.1.17";   /// lấy ip bằng lệnh ifconfig, ví dụ 192.168.1.105
 const uint16_t mqtt_port = 1883;
 const byte ledPin = D0;
 
