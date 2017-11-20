@@ -296,7 +296,7 @@ AnalogWrite | Tỷ lệ | Chu kỳ xung
 
  Hàm analogWrite() trong arduino giúp cho việc tạo xung dễ dàng hơn. Hàm này cho phép bạn thay đổi chu kỳ xung còn tần số là giá trị mặc định của arduino.
 
-Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.
+Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
 
 ## 11. Memmory
 
@@ -323,7 +323,7 @@ Modules ESP8266 có 4 chế độ Sleep:
 - Deep-sleep
 
 Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
-
+https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 
 - No-sleep: Chế độ này sẽ giữ mọi thứ ở trạng thái on.
@@ -333,7 +333,7 @@ Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
 
 ### Deepsleep
 
-Với chế độ deep-sleep flow của chương trình sẽ như sau:
+Với chế độ deep-sleep flow của chương trình shttps://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.inoẽ như sau:
 1. Thực hiện một vài hành động.
 1. Sleep n giây
 1. Lặp lại
@@ -342,12 +342,9 @@ Với chế độ deep-sleep flow của chương trình sẽ như sau:
 
 Ví dụ:
 ```cpp
-/**
- * An example showing how to put ESP8266 into Deep-sleep mode
- */
- 
+
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
   Serial.setTimeout(2000);
 
   // Wait for serial to initialize.
@@ -362,3 +359,48 @@ void setup() {
 void loop() {
 }
 ```
+
+## Danh Sách các code đã làm
+
+1. Code đăng ký newDevice lên topic của mqtt sử dụng EEPROM để sẽ chỉ gửi đăng ký topic này một lần duy nhất cho tới khi nhận được trả về xác nhận đã đăng ký thành công.
+[https://github.com/NTT-TNN/ESP_OLP/tree/master/ArduinoWindows/newDevice](https://github.com/NTT-TNN/ESP_OLP/tree/master/ArduinoWindows/newDevice)
+
+1. Code update firmware sử dụng OTA trên windows(chưa chạy được trên ubuntu)
+
+[https://github.com/NTT-TNN/ESP_OLP/tree/master/ArduinoWindows/BasicOTA](https://github.com/NTT-TNN/ESP_OLP/tree/master/ArduinoWindows/BasicOTA)
+
+1. Code đọc dữ liệu quan trở(Photodiode)  Giá trị trả về là điện trở tỷ lệ nghịch với cường độ ánh sáng.
+
+[https://github.com/NTT-TNN/ESP_OLP/tree/master/example/anh_sang](https://github.com/NTT-TNN/ESP_OLP/tree/master/example/anh_sang)
+
+1. Code sử dụng blink mức cơ bản chưa làm gì cả
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/blynk_1/blynk_1.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/blynk_1/blynk_1.ino)
+
+1. Code đọc giá trị cảm biến chuyển động(HC-SR501) . Trả lại 1 có chuyển động 0 nếu không có chuyển động
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino)
+
+1. Code chế độ deepsleep lưu ý docs ở trên
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino)
+
+1. Đọc nhiệt độ DS18B20 hiển thị ra OLED
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/display/display.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/display/display.ino)
+
+1. Đọc giá trị cảm biến mưa giá trị trả về càng lớn mưa càng to
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/mua/mua.ino4](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/mua/mua.ino)
+
+1. Code điều khiển động cơ servo
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/servo/servo.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/servo/servo.ino)
+
+1. Code connect to wifi
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/wifi/wifi.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/wifi/wifi.ino)
+
+1. Quét tìm tất cả các wifi có gần đây
+
+[https://github.com/NTT-TNN/ESP_OLP/blob/master/example/scan/scan.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/scan/scan.ino)

@@ -1,5 +1,5 @@
 /*
-  To upload through terminal you can use: curl -F "image=@firmware.bin" esp8266-webupdate.local/update
+  Chua dung duoc
 */
 
 #include <ESP8266WiFi.h>
@@ -9,8 +9,8 @@
 #include <ESP8266HTTPUpdateServer.h>
 
 const char* host = "esp8266";
-const char* ssid = "ICSE";
-const char* password = "hpcc@)!%";
+const char* ssid = "HPCC_IOT";
+const char* password = "hpcc_iot";
 
 ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
