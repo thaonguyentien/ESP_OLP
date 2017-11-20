@@ -61,6 +61,7 @@ void loop(){
 
 - Hai chân GPIO00 và GPIO02 ko cần câu lệnh  pinMode(00, INPUT_PULLUP); ở setup các chân khác cần có câu lệnh INPUT_PULLUP tương ứng
 
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/ds18b20_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/ds18b20_bb.jpg)
 
 ## 3. ArduinoJson.h
 
