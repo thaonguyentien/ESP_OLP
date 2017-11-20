@@ -12,7 +12,7 @@ const char* ssid = "HPCC-IOT"; // your wireless network name (SSID)
 const char* password = "hpcc_iot_icse"; // your Wi-Fi network password
 
 //MQTT Settings
-const char* default_mqtt_server="192.168.1.17";
+const char* default_mqtt_server="broker.hivemq.com";
 const char* default_mqtt_port="1883";
 const char* topic_pub="icse/sensor";
 const char* topic_sub="icse/action";
@@ -55,7 +55,7 @@ void reconnect() {
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
-    if (client.connect(clientId.c_str()),"","",willTopic,willQoS,willRetain,willMessage) {
+    if (client.connect(clientId.c_str()),willTopic,willQoS,willRetain,willMessage) {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish(willTopic, "hello world");
@@ -115,8 +115,9 @@ void loop() {
     if (!client.connected()) {
       reconnect();
     }
-   client.publish("myTopic","hihi");
+   client.publish("icse/sensor","vn");
    client.loop();
+   Serial.print("Send");
   
   delay(1000);
   
