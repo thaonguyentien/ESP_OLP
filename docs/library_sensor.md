@@ -16,12 +16,11 @@ void setup(){
     dht.begin();// Trong hàm setup() để khởi tạo.
 }
 
-temp=dht.readTemperature(); // Đọc nhiệt độ từ cảm biến
+temp=dht.readTemperaturefzz(); // Đọc nhiệt độ từ cảm biến
 humi=dht.readHumidity();  // Đọc độ ẩm từ cảm biến
 ```
 
 ### Note: Chú ý lúc install library chọn bản 1.2.3 để cài đặt ko sẽ bị lỗi `Adafruit_Sensor.h: No such file or directory`
-
 
 ## 2. DS18B20(Cảm biến nhiệt độ)
 
@@ -30,12 +29,15 @@ humi=dht.readHumidity();  // Đọc độ ẩm từ cảm biến
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-OneWire ds(2);
+OneWire ds(2); // Chân cắm output trên cảm biến có thể là 1 trong các chân sau: 00, 02, 04, 05,  10, 12, 13, 14
 DallasTemperature DS18B20(&ds);
 
 void setup(){
-    DS18B20.begin();
+  Serial.begin(115200);
+  DS18B20.begin();
+  pinMode(2, INPUT_PULLUP);
 }
+
 //Hàm đọc nhiệt độ
 float getTemperature(){
   float temperature;
@@ -47,9 +49,18 @@ float getTemperature(){
   }while(temperature == 85.0);
 }
 
-float   temp=getTemperature(); // gọi hàm để lấy nhiệt đố gán vào biến temp
+void loop(){
+  float temp=getTemperature(); // gọi hàm để lấy nhiệt đố gán vào biến temp
+  Serial.println(temp);
+}
+
 
 ```
+
+### Notes :
+
+- Hai chân GPIO00 và GPIO02 ko cần câu lệnh  pinMode(00, INPUT_PULLUP); ở setup các chân khác cần có câu lệnh INPUT_PULLUP tương ứng
+
 
 ## 3. ArduinoJson.h
 
@@ -93,11 +104,13 @@ root.printTo(Serial);
 // {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
 ```
 
+### Notes: Có thể tạo một json rồi add làm một phần tử của json khác.
+
 ## 4. OLED
 
 (Download bằng tay repo về sau đó cho vào cùng thư mục với file ino.)
 
-```cpp
+```cppfzz
 #include "SH1106.h"
 
 SH1106  display(0x3c, 4, 5);
@@ -109,7 +122,7 @@ void setup(){
 }
 
 void loop(){
-    display.clear();
+    display.clear();fzz
     splay.drawString(0, 0, temperatureCString);
     display.display();
 }
@@ -121,10 +134,11 @@ void loop(){
 
 - Sử dụng digitalRead để đọc dữ liệu trả về trên con cảm biến ánh sáng. Giá trị trả về sẽ là 0 hoặc 1.
 - Sử dụng analogRead để đọc dữ liêu analog trả về trên con cảm biến ảnh sáng.
+
 ## 6. Kết nối wifi
 
 ```cpp
-#include <ESP8266WiFi.h>
+#include <ESP8266WiFi.h>fzz
 
 const char* ssid = "NTT_TNN_1";
 const char* password = "thao0983451175";
@@ -139,7 +153,7 @@ void setup(){
   }
   Serial.print("Connected, IP address: ");
 }
-```
+```fzz
 
 ## 7. PubSubClient
 
@@ -164,7 +178,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
      char payload_string[100];
      strncpy(payload_string, (char*)payload,sizeof(payload_string)); // chuyển về dàng char  
 }
-PubSubClient client(espClient); // Gắn PubSub vào wifi
+PubSubClient client(espClient)fzz; // Gắn PubSub vào wifi
 
 
 // Connected to mqtt server
@@ -184,7 +198,6 @@ void reconnect() {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
       delay(5000);
     }
   }
@@ -205,6 +218,8 @@ loop(){
 }
 
 ```
+
+### Notes: Kích thước mặc định của gói tin gửi đi là 128 bytes muốn gửi gói tin có kịch thước lớn hơn cần chỉnh lại `#define MQTT_MAX_PACKET_SIZE 2048` trong file `PubSubClient.h` dòng 23( đường dẫn `libraries/PubSubClient/src/PubSubClient.h`)
 
 ## 8. Smart Wifi
 
@@ -229,11 +244,10 @@ void configModeCallback (WiFiManager *myWiFiManager) {
 
     WiFiManagerParameter custom_mqtt_server("server", "mqtt server", default_mqtt_server, 40);
     WiFiManagerParameter custom_mqtt_port("port", "mqtt port", default_mqtt_port, 6);
-    WiFiManagerParameter custom_text("Ahihi");
     wifiManager.addParameter(&custom_mqtt_server);
     wifiManager.addParameter(&custom_mqtt_port);
-    wifiManager.addParameter(&custom_text);
-        if (!wifiManager.autoConnect("THAO_ESP")) {
+    //    wifiManager.resetSettings();//  xóa cmt 
+    if (!wifiManager.autoConnect("THAO_ESP")) {
       Serial.println("failed to connect, we should reset as see if it connects");
       delay(3000);
       ESP.reset();
@@ -242,6 +256,8 @@ void configModeCallback (WiFiManager *myWiFiManager) {
     Serial.println("connected...yeey");
     
 ```
+
+### Notes: Mặc định ở chế độ này arduino sẽ tự động connect đến wifi đã được connect đến ở lần kết nối trước nếu có thể. Nếu muốn mỗi lần nạp firmware đều yêu cầu người dùng config lại wifi (không sử dụng wifi lần gần nhất đã được lưu thì xóa comment dòng     `//wifiManager.resetSettings();`)
 
 ## 9. Phát Wifi
 
