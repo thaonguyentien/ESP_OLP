@@ -1,4 +1,4 @@
-#include "SH1106.h"
+  #include "SH1106.h"
 SH1106  display(0x3c, 4, 5);
 #include <ESP8266WiFi.h>  
 #include <ESP8266WebServer.h>
@@ -11,7 +11,7 @@ SH1106  display(0x3c, 4, 5);
 #include <BH1750.h>
 
 BH1750 lightMeter;
-const char* default_mqtt_server = "192.168.1.16";
+const char* default_mqtt_server = "192.168.1.100";
 const char* default_mqtt_port = "1883";
 
 int ledStatus=0;
@@ -39,46 +39,42 @@ DHT dht(DHTPIN, DHTTYPE);
 bool Pin_Status = LOW;
 bool PIR_State = LOW; //LOW = no motion, HIGH = motion
 
-void DKLed(int status){
-  if(status==1){
-    digitalWrite(LedDo,HIGH);
-    digitalWrite(LedXanh,HIGH);
-    digitalWrite(LedVang,HIGH);
-  }else{
-    digitalWrite(LedDo,LOW);
-    digitalWrite(LedXanh,LOW);
-    digitalWrite(LedVang,LOW);
-  }
-}
 void callback(char* topic, byte* payload, unsigned int length) {
   // handle message arrived
-  Serial.println("sub");
+  
   if(strcmp(topic,"icse/60:01:94:34:AC:E3/action")==0){
       payload[length] = '\0';
       char payload_string[200];
       strncpy(payload_string, (char*)payload,sizeof(payload_string));
+      Serial.println(payload_string);
       StaticJsonBuffer<200> jsonBuffer;
       JsonObject& root = jsonBuffer.parseObject(payload_string);
-      if(strcmp(root["type"],"register")){
+      String type=root["type"];
+      Serial.println(type);
+      if(strcmp(root["type"],"register")==0){
+        Serial.println("register111");
         if(strcmp(root["type"],"OK")){
           isRegister=true;
         }
       }else {
-        if(strcmp(root["greenLed"],"ON")){
+        if(strcmp(root["greenLed"],"ON")==0){
           digitalWrite(LedXanh,HIGH);
+          Serial.println("greenLed ON");
         }else{
           digitalWrite(LedXanh,LOW);
         }
           Serial.print("checkMove");
 
-        if(strcmp(root["redLed"],"ON")){
+        if(strcmp(root["redLed"],"ON")==0){
           digitalWrite(LedDo,HIGH);
+          Serial.println("redLed ON");
         }else{
           digitalWrite(LedDo,LOW);
         }
 
-        if(strcmp(root["yellowLed"],"ON")){
+        if(strcmp(root["yellowLed"],"ON")==0){
           digitalWrite(LedVang,HIGH);
+          Serial.println("yellowLed ON");
         }else{
           digitalWrite(LedVang,LOW);
         }
@@ -123,7 +119,6 @@ void setup() {
     display.setFont(ArialMT_Plain_24);
     lightMeter.begin();
     WiFiManager wifiManager;
-
     WiFiManagerParameter custom_mqtt_server("server", "mqtt server", default_mqtt_server, 40);
     WiFiManagerParameter custom_mqtt_port("port", "mqtt port", default_mqtt_port, 6);
     wifiManager.addParameter(&custom_mqtt_server); 
@@ -147,7 +142,9 @@ void setup() {
 void loop() {
    if (!client.connected()) {
       reconnect();
+      
   }
+  client.loop();
 
   sendData();
   sendRegister();
@@ -156,17 +153,18 @@ void loop() {
 //  sendData();
 //  Serial.print("anh sang ");
 //  Serial.println(getLight());
-  Serial.print("nhiet do ");
-  Serial.println(getTemperature());
-  Serial.print("do am ");
-  Serial.println(getHumidity());
+//  Serial.print("nhiet do ");
+//  Serial.println(getTemperature());
+//  Serial.print("do am ");
+//  Serial.println(getHumidity());
 //  Serial.print("chuyen dong ");
 //  Serial.println(checkMove());
 //  Serial.println();
-  delay(10000);
+  delay(1000);
 }
 
-void sendRegister(){
+void sendRegister(){client.loop();
+
   if(isRegister==false){
       StaticJsonBuffer<500> jsonBuffer;
 
@@ -224,14 +222,23 @@ void sendData(){
 
   StaticJsonBuffer<100> jsonTempBuffer;
   JsonObject& jsonTemp = jsonTempBuffer.createObject();
-  jsonTemp["value"]=getTemperature();
-  jsonTemp["name"]="DHT11_01";
+  if(isnan(getTemperature())){
+    jsonTemp["value"]="nan";
+  }else{
+    jsonTemp["value"]=getTemperature();
+  }
+  
+  jsonTemp["name"]="DHT11-t";
   sensorsData.add(jsonTemp);
 
   StaticJsonBuffer<100> jsonHumiBuffer;
   JsonObject& jsonHumi = jsonHumiBuffer.createObject();
-  jsonHumi["value"]=getHumidity();
-  jsonHumi["name"]="DHT11_01";
+  if(isnan(getHumidity())){
+    jsonHumi["value"]="nan";
+  }else{
+    jsonHumi["value"]=getHumidity();
+  }
+  jsonHumi["name"]="DHT11-h";
   sensorsData.add(jsonHumi);
 
   StaticJsonBuffer<100> jsonLightBuffer;
@@ -257,7 +264,7 @@ float getLight(){
 }
 
 float getTemperature(){
-  Serial.println(dht.readTemperature());
+//  Serial.println(dht.readTemperature());
   return dht.readTemperature();
 }
 

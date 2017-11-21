@@ -220,7 +220,10 @@ loop(){
 
 ```
 
-### Notes: Kích thước mặc định của gói tin gửi đi là 128 bytes muốn gửi gói tin có kịch thước lớn hơn cần chỉnh lại `#define MQTT_MAX_PACKET_SIZE 2048` trong file `PubSubClient.h` dòng 23( đường dẫn `libraries/PubSubClient/src/PubSubClient.h`)
+### Notes: 
+
+- Kích thước mặc định của gói tin gửi đi là 128 bytes muốn gửi gói tin có kịch thước lớn hơn cần chỉnh lại `#define MQTT_MAX_PACKET_SIZE 2048` trong file `PubSubClient.h` dòng 23( đường dẫn `libraries/PubSubClient/src/PubSubClient.h`)
+- Lưu ý để có thể nhận được hàm callback() cần có `client.loop();`
 
 ## 8. Smart Wifi
 

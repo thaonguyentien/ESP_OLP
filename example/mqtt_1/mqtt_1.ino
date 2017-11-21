@@ -9,9 +9,9 @@ SH1106  display(0x3c, 4, 5);
 OneWire  ds(2);  // on pin D4 (a 4.7K resistor is necessary)
 DallasTemperature DS18B20(&ds);
 // bạn thay đổi thông tin bên dưới cho phù hợp
-const char* ssid =         "HPCC-IOT";
-const char* password =    "hpcc_iot_icse";
-const char* mqtt_server = "192.168.1.17";   /// lấy ip bằng lệnh ifconfig, ví dụ 192.168.1.105
+const char* ssid =         "HPCC_IOT";
+const char* password =    "hpcc_iot";
+const char* mqtt_server = "192.168.1.100";   /// lấy ip bằng lệnh ifconfig, ví dụ 192.168.1.105
 const uint16_t mqtt_port = 1883;
 const byte ledPin = D0;
 
@@ -100,7 +100,7 @@ void reconnect() {
       // Khi kết nối thành công sẽ gửi chuỗi helloworld lên topic event
       client.publish("Nhiet Do", "hello world");
       // ... sau đó sub lại thông tin
-      client.subscribe("Nhiet Do");
+      client.subscribe("Nhiet Do1");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
