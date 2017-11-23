@@ -1,4 +1,4 @@
-  #include "SH1106.h"
+j #include "SH1106.h"
 SH1106  display(0x3c, 4, 5);
 #include <ESP8266WiFi.h>  
 #include <ESP8266WebServer.h>
@@ -21,6 +21,9 @@ int LedVang=15;
 float temp,humi;
 boolean motion;
 uint16_t light;
+unsigned long previousMillis = 0; 
+const long interval = 1000; 
+
 WiFiClient espClient;
 
 PubSubClient client(espClient);
@@ -145,22 +148,13 @@ void loop() {
       
   }
   client.loop();
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    sendData();
+    sendRegister();
+  }
 
-  sendData();
-  sendRegister();
-  ledStatus++;
-//  DKLed((ledStatus%2));
-//  sendData();
-//  Serial.print("anh sang ");
-//  Serial.println(getLight());
-//  Serial.print("nhiet do ");
-//  Serial.println(getTemperature());
-//  Serial.print("do am ");
-//  Serial.println(getHumidity());
-//  Serial.print("chuyen dong ");
-//  Serial.println(checkMove());
-//  Serial.println();
-  delay(1000);
 }
 
 void sendRegister(){client.loop();

@@ -16,7 +16,7 @@ void setup(){
     dht.begin();// Trong hàm setup() để khởi tạo.
 }
 
-temp=dht.readTemperaturefzz(); // Đọc nhiệt độ từ cảm biến
+temp=dht.readTemperature(); // Đọc nhiệt độ từ cảm biến
 humi=dht.readHumidity();  // Đọc độ ẩm từ cảm biến
 ```
 
@@ -57,7 +57,7 @@ void loop(){
 
 ```
 
-### Notes :
+### Notes:
 
 - Hai chân GPIO00 và GPIO02 ko cần câu lệnh  pinMode(00, INPUT_PULLUP); ở setup các chân khác cần có câu lệnh INPUT_PULLUP tương ứng
 
@@ -109,9 +109,8 @@ root.printTo(Serial);
 
 ## 4. OLED
 
-(Download bằng tay repo về sau đó cho vào cùng thư mục với file ino.)
 
-```cppfzz
+```cpp
 #include "SH1106.h"
 
 SH1106  display(0x3c, 4, 5);
@@ -123,13 +122,17 @@ void setup(){
 }
 
 void loop(){
-    display.clear();fzz
-    splay.drawString(0, 0, temperatureCString);
+    display.clear();
+    display.drawString(0, 0, temperatureCString);
     display.display();
 }
 ```
 
-### Note: Chú ý copy các file thư viện vào folder mã nguồn.
+### Note:
+
+- hàm display.drawString nhận vào 2 tham số đầu tiên cho biết tọa độ của điểm bắt đầu vẽ String
+- Library sử dụng file Zip
+[https://github.com/squix78/esp8266-oled-ssd1306](https://github.com/squix78/esp8266-oled-ssd1306)
 
 ## 5. Cảm biến ánh sáng
 
@@ -139,7 +142,7 @@ void loop(){
 ## 6. Kết nối wifi
 
 ```cpp
-#include <ESP8266WiFi.h>fzz
+#include <ESP8266WiFi.h>
 
 const char* ssid = "NTT_TNN_1";
 const char* password = "thao0983451175";
@@ -154,7 +157,7 @@ void setup(){
   }
   Serial.print("Connected, IP address: ");
 }
-```fzz
+```
 
 ## 7. PubSubClient
 
@@ -174,12 +177,12 @@ WiFiClient espClient; // Khai báo wifi
 // Hàm callback được goi để xử lý dữ liệu trả về từ mqtt server
 void callback(char* topic, byte* payload, unsigned int length) {
   if(strcmp(topic,topic_sub)==0){
-     payload[length] = '\0';  // Cắt bỏ dữ liệu thừa 
+     payload[length] = '\0';  // Cắt bỏ dữ liệu thừa
      char inData[80];
      char payload_string[100];
-     strncpy(payload_string, (char*)payload,sizeof(payload_string)); // chuyển về dàng char  
+     strncpy(payload_string, (char*)payload,sizeof(payload_string)); // chuyển về dàng char
 }
-PubSubClient client(espClient)fzz; // Gắn PubSub vào wifi
+PubSubClient client(espClient); // Gắn PubSub vào wifi
 
 
 // Connected to mqtt server
@@ -214,13 +217,14 @@ loop(){
     if (!client.connected()) {
       reconnect();
     }
+    client.loop();
     // Publish noi dung theo topic icse/sensor
     client.publish("icse/sensor",JSONmessageBuffer);
 }
 
 ```
 
-### Notes: 
+### Notes:
 
 - Kích thước mặc định của gói tin gửi đi là 128 bytes muốn gửi gói tin có kịch thước lớn hơn cần chỉnh lại `#define MQTT_MAX_PACKET_SIZE 2048` trong file `PubSubClient.h` dòng 23( đường dẫn `libraries/PubSubClient/src/PubSubClient.h`)
 - Lưu ý để có thể nhận được hàm callback() cần có `client.loop();`
@@ -323,7 +327,7 @@ Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite 
 
 ## 11. Memmory
 
-Có 3 bộ nhớ:
+Có 3 bộ nhớ:aw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 
 - Flash memmory: Nơi mà Arduino sketch được lưu trữ
 - SRAM: nơi mà sketch được tạo và chứa các biến khi chạy.
@@ -333,14 +337,14 @@ Flash và EEPROM là vùng nhớ tồn tại cả khi mất điện. SRAM sẽ m
 
 Dung lượng bộ nhớ ATmega328:
 
-- Flash  32k bytes (of which .5k is used for the bootloader)
+- Flash  32k bytes (of which .5k is used for the bootloader)aw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 - SRAM   2k bytes
 - EEPROM 1k byte
 
 ## 12. Sleep
 
 Modules ESP8266 có 4 chế độ Sleep:
-- No-sleep
+- No-sleepaw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 - Modem-sleep
 - Light-sleep
 - Deep-sleep
@@ -382,6 +386,39 @@ void setup() {
 void loop() {
 }
 ```
+
+## 13. Động cơ servo
+
+#include <Servo.h>
+
+#define SERVO_PIN 2  // 02, 00, 04, 05, 10, 12, 13, 14, 15 các chân 12- 15 không ổn định động cơ bị giật khi quay
+
+```cpp
+Servo myservo1;
+int pos = 0;
+void setup() {
+  myservo1.attach(SERVO_PIN);
+  Serial.begin(115200);
+
+}
+void loop() {
+  for ( pos = 0; pos <= 180; pos += 5) {
+    myservo1.write(pos);
+    Serial.println("Pos= ");
+    Serial.print(pos);
+    delay(100);
+  }
+  for ( pos = 180; pos >= 0; pos -= 5) {
+    myservo1.write(pos);
+    Serial.println("Pos= ");
+    Serial.print(pos);
+    delay(100);
+  }
+  delay(500);
+}
+
+```
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg)
 
 ## Danh Sách các code đã làm
 
