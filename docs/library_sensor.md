@@ -389,11 +389,12 @@ void loop() {
 
 ## 13. Động cơ servo
 
+
+
+```cpp
 #include <Servo.h>
 
 #define SERVO_PIN 2  // 02, 00, 04, 05, 10, 12, 13, 14, 15 các chân 12- 15 không ổn định động cơ bị giật khi quay
-
-```cpp
 Servo myservo1;
 int pos = 0;
 void setup() {
@@ -418,7 +419,55 @@ void loop() {
 }
 
 ```
-![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg)
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb1.jpg)
+
+
+### 14. Cảm biến mưa
+Lượng mưa càng lớn số trả về càng nhỏ
+
+```cpp
+#include <Wire.h>
+
+// IoT Wifi Uno-----Cam bien mua
+//      ADC---------------A0
+//      3.3V--------------VCC
+//      GND---------------GND
+
+int nRainIn = 0;          // khai bao chan ADC
+int nRainVal;             // bien de doc gia tri ADC
+const int timeInterval=1000;
+int previousMillis=0;
+void setup() {
+  Serial.begin(115200);
+  pinMode(2, INPUT_PULLUP);
+}
+
+void loop()
+{
+  currentMillis = millis();
+  if(currentMillis-previousMillis>=timeInterval){
+    previousMillis=currentMillis;
+    nRainVal = analogRead(nRainIn);
+    Serial.print("\t Moisture Level: ");
+    Serial.println(nRainVal);
+    
+    if(nRainVal < 320)
+    {
+      Serial.println(":STOP");
+    }
+    else
+    {
+      Serial.println( ":Xuong");
+    }
+  }
+  
+ 
+
+}
+
+```
+
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg)
 
 ## Danh Sách các code đã làm
 

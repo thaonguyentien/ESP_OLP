@@ -1,4 +1,3 @@
-#include "SSD1306.h" // thu vien de hien thi OLED
 #include <Wire.h>
 
 // IoT Wifi Uno-----Cam bien mua
@@ -8,39 +7,32 @@
 
 int nRainIn = 0;          // khai bao chan ADC
 int nRainVal;             // bien de doc gia tri ADC
-SSD1306  display(0x3c, 4, 5);
-
-char temperatureCString[10];
-
+const int timeInterval=1000;
+int previousMillis=0;
 void setup() {
-  Serial.begin(9600);
-  display.init();
-  display.flipScreenVertically();
-  display.setFont(ArialMT_Plain_24); // size chu
+  Serial.begin(115200);
   pinMode(2, INPUT_PULLUP);
 }
+
 void loop()
 {
-  nRainVal = analogRead(nRainIn);
-  Serial.print("\t Moisture Level: ");
-  Serial.println(nRainVal);
-
-  display.clear();
-  display.drawString(0, 20, String(nRainVal)); // hien thi gia tri ADC
-  display.drawString(10, 0, "IoTmaker");
-
-  if(nRainVal < 320)
-  {
-    display.drawString(40, 20, ":STOP");
-    display.drawString(00, 40, "the nay thoi");
+  currentMillis = millis();
+  if(currentMillis-previousMillis>=timeInterval){
+    previousMillis=currentMillis;
+    nRainVal = analogRead(nRainIn);
+    Serial.print("\t Moisture Level: ");
+    Serial.println(nRainVal);
+    
+    if(nRainVal < 320)
+    {
+      Serial.println(":STOP");
+    }
+    else
+    {
+      Serial.println( ":Xuong");
+    }
   }
-  else
-  {
-    display.drawString(40, 20, ":Xuong");
-    display.drawString(0, 40, "them ti nua!");
-  }
-
-  display.display();
-  delay(60);
+  
+ 
 
 }
