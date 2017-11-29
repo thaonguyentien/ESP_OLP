@@ -7,7 +7,7 @@ SH1106  display(0x3c, 4, 5);
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
 
-#include <Wire.h>
+#include <Wire.h>d
 #include <BH1750.h>
 
 BH1750 lightMeter;
@@ -157,49 +157,14 @@ void loop() {
 
 }
 
-void sendRegister(){
+void sendMove(){
+  StaticJsonBuffer<200> jsonBuffer;
 
-  if(isRegister==false){
-      StaticJsonBuffer<500> jsonBuffer;
-
-      JsonObject& jsonNew = jsonBuffer.createObject();
-      jsonNew["macAddr"]=WiFi.macAddress();
-      jsonNew["type"]= "ESP8266";
-      JsonArray& sensors = jsonNew.createNestedArray("sensors");
-      
-      StaticJsonBuffer<100> jsonDeviceBuffer;
-      JsonObject& device1 = jsonDeviceBuffer.createObject();
-      device1["name"]="DHT11-t";
-      device1["unit"]="C";
-      sensors.add(device1);
-    
-      StaticJsonBuffer<100> jsonTempBuffer;
-      JsonObject& jsonTemp = jsonTempBuffer.createObject();
-      jsonTemp["unit"]="%";
-      jsonTemp["name"]="DHT11-h";
-      sensors.add(jsonTemp);
-    
-      StaticJsonBuffer<100> jsonHumiBuffer;
-      JsonObject& jsonHumi = jsonHumiBuffer.createObject();
-      jsonHumi["unit"]="";
-      jsonHumi["name"]="HC-SR501";
-      sensors.add(jsonHumi);
-    
-      StaticJsonBuffer<100> jsonLightBuffer;
-      JsonObject& jsonLight = jsonLightBuffer.createObject();
-      jsonLight["unit"]="lux";
-      jsonLight["name"]="BH1750";
-      sensors.add(jsonLight);
-      
-      jsonNew.printTo(dataMessage, sizeof(dataMessage));
-    //  Serial.println(dataMessage);
-      client.publish(icseNew, dataMessage);
-      
-//      Serial.println(" Register");
-//      Serial.println(icseNew);
-//      Serial.println(dataMessage);
-  }
+  JsonObject& jsonData = jsonBuffer.createObject();
+  jsonData["macAddr"]=WiFi.macAddress();
+  jsonData["type"]="motion";
 }
+
 void sendData(){
     
   StaticJsonBuffer<500> jsonBuffer;
@@ -248,6 +213,8 @@ void sendData(){
 //  Serial.println(icseData);
 //  Serial.println(dataMessage);
 }
+
+
 
 boolean checkMove(){
   return digitalRead(InputPin);

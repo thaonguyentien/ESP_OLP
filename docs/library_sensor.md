@@ -16,9 +16,17 @@ void setup(){
     dht.begin();// Trong hàm setup() để khởi tạo.
 }
 
-temp=dht.readTemperature(); // Đọc nhiệt độ từ cảm biến
-humi=dht.readHumidity();  // Đọc độ ẩm từ cảm biến
+float getTemperature(){
+  return dht.readTemperature();
+}
+
+float getHumodity(){
+  return dht.readHumidity();  // Đọc độ ẩm từ cảm biến
+}
+
 ```
+
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/dht11_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/dht11_bb.png)
 
 ### Note: Chú ý lúc install library chọn bản 1.2.3 để cài đặt ko sẽ bị lỗi `Adafruit_Sensor.h: No such file or directory`
 
@@ -270,14 +278,11 @@ void setup() {
 void loop() {
    if (!client.connected()) {
       reconnect();
-      
   }
   client.loop();
 
 }
 
-
-    
 ```
 
 ### Notes:
@@ -339,11 +344,11 @@ AnalogWrite | Tỷ lệ | Chu kỳ xung
 
  Hàm analogWrite() trong arduino giúp cho việc tạo xung dễ dàng hơn. Hàm này cho phép bạn thay đổi chu kỳ xung còn tần số là giá trị mặc định của arduino.
 
-Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
+Trên hầu hết các Arduino board (ATmega168 or ATmega328), hàm analogWrite hoạt động trên các pins 3, 5, 6, 9, 10, and 11. Sử dụng analogWrite() bạn có thể điều chỉnh đèn LED sáng ở nhiều mức khác nhau hoặc điều chỉnh động cơ quay với nhiều speed khác nhau.
 
 ## 11. Memmory
 
-Có 3 bộ nhớ:aw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
+Có 3 bộ nhớ:
 
 - Flash memmory: Nơi mà Arduino sketch được lưu trữ
 - SRAM: nơi mà sketch được tạo và chứa các biến khi chạy.
@@ -353,20 +358,19 @@ Flash và EEPROM là vùng nhớ tồn tại cả khi mất điện. SRAM sẽ m
 
 Dung lượng bộ nhớ ATmega328:
 
-- Flash  32k bytes (of which .5k is used for the bootloader)aw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
+- Flash  32k bytes (of which .5k is used for the bootloader)
 - SRAM   2k bytes
 - EEPROM 1k byte
 
 ## 12. Sleep
 
 Modules ESP8266 có 4 chế độ Sleep:
-- No-sleepaw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
+- No-sleep
 - Modem-sleep
 - Light-sleep
 - Deep-sleep
 
 Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
-https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 
 - No-sleep: Chế độ này sẽ giữ mọi thứ ở trạng thái on.
@@ -376,7 +380,7 @@ https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.i
 
 ### Deepsleep
 
-Với chế độ deep-sleep flow của chương trình shttps://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.inoẽ như sau:
+Với chế độ deep-sleep flow của chương trình sẽ như sau:
 1. Thực hiện một vài hành động.
 1. Sleep n giây
 1. Lặp lại
@@ -387,7 +391,7 @@ Ví dụ:
 ```cpp
 
 void setup() {
-  Serial.begin(115200);https://github.com/NTT-TNN/ESP_OLP/blob/master/example/chuyen_dong/chuyen_dong.ino
+  Serial.begin(115200);
   Serial.setTimeout(2000);
 
   // Wait for serial to initialize.
@@ -404,7 +408,6 @@ void loop() {
 ```
 
 ## 13. Động cơ servo
-
 
 ```cpp
 #include <Servo.h>
@@ -434,8 +437,7 @@ void loop() {
 }
 
 ```
-![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb1.jpg)
-
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png)
 
 ### 14. Cảm biến mưa
 Lượng mưa càng lớn số trả về càng nhỏ
@@ -475,14 +477,13 @@ void loop()
       Serial.println( ":Xuong");
     }
   }
-  
- 
-
 }
 
 ```
 
-##. 15 BH1750
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.png)
+
+### 15. BH1750
 
 Cảm biến ánh sáng trả về cường độ ánh sáng đơn vị lux
 
@@ -502,8 +503,6 @@ float getLight(){
   return lightMeter.readLightLevel() ;
 }
 ```
-
-![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg)
 
 ## Danh Sách các code đã làm
 
