@@ -157,7 +157,7 @@ void loop() {
 
 }
 
-void sendRegister(){client.loop();
+void sendRegister(){
 
   if(isRegister==false){
       StaticJsonBuffer<500> jsonBuffer;

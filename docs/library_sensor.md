@@ -4,7 +4,7 @@
 
 Giá trị trả về dạng số thực.
 
-```sh
+```cpp
 
 #include <DHT.h>
 
@@ -57,7 +57,7 @@ void loop(){
 
 ```
 
-### Notes:
+### Notes
 
 - Hai chân GPIO00 và GPIO02 ko cần câu lệnh  pinMode(00, INPUT_PULLUP); ở setup các chân khác cần có câu lệnh INPUT_PULLUP tương ứng
 
@@ -234,36 +234,52 @@ loop(){
 Sử dụng web server để cho phép nhận vào wifi và mqtt server
 
 ```cpp
+#include <ESP8266WiFi.h>  
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>
 
-const char* default_mqtt_server="10.0.0.221";
-const char* default_mqtt_port="1883";
 
-void configModeCallback (WiFiManager *myWiFiManager) {
-  Serial.println("Entered config mode");
-  Serial.println(WiFi.softAPIP());
 
-  Serial.println(myWiFiManager->getConfigPortalSSID());
-}
+const char* default_mqtt_server = "192.168.1.100";
+const char* default_mqtt_port = "1883";
 
+
+void setup() {
+    Serial.begin(115200);
     WiFiManager wifiManager;
-    wifiManager.setAPCallback(configModeCallback);
-
     WiFiManagerParameter custom_mqtt_server("server", "mqtt server", default_mqtt_server, 40);
     WiFiManagerParameter custom_mqtt_port("port", "mqtt port", default_mqtt_port, 6);
-    wifiManager.addParameter(&custom_mqtt_server);
+    wifiManager.addParameter(&custom_mqtt_server); 
     wifiManager.addParameter(&custom_mqtt_port);
-    //    wifiManager.resetSettings();//  xóa cmt 
+    Serial.println(WiFi.macAddress());
+    pinMode(InputPin, INPUT);  //input declaration
+    pinMode(ledPin, OUTPUT);
+//    wifiManager.resetSettings();//  xóa cmt 
     if (!wifiManager.autoConnect("THAO_ESP")) {
       Serial.println("failed to connect, we should reset as see if it connects");
       delay(3000);
       ESP.reset();
       delay(5000);
-    }
-    Serial.println("connected...yeey");
+    } 
+    Serial.println("connected...yeey :)");
+    client.setServer(default_mqtt_server, 1883);
+    client.setCallback(callback);
+}
+
+
+void loop() {
+   if (!client.connected()) {
+      reconnect();
+      
+  }
+  client.loop();
+
+}
+
+
     
 ```
+
 ### Notes:
 
 #### addParameter
@@ -390,7 +406,6 @@ void loop() {
 ## 13. Động cơ servo
 
 
-
 ```cpp
 #include <Servo.h>
 
@@ -467,6 +482,27 @@ void loop()
 
 ```
 
+##. 15 BH1750
+
+Cảm biến ánh sáng trả về cường độ ánh sáng đơn vị lux
+
+```cpp
+#include <Wire.h>
+#include <BH1750.h>
+
+BH1750 lightMeter;
+uint16_t light;
+
+void setup(){
+      lightMeter.begin();
+
+}
+
+float getLight(){
+  return lightMeter.readLightLevel() ;
+}
+```
+
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/mua_bb.jpg)
 
 ## Danh Sách các code đã làm
@@ -521,3 +557,15 @@ void loop()
 1. Đọc giá trị cảm biến DHT11
 
 [https://github.com/NTT-TNN/ESP_OLP/blob/master/example/test_dht11/test_dht11.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/test_dht11/test_dht11.ino)
+
+
+D0 ~ GPIO16
+D1 ~ GPIO05
+D2 ~ GPIO04
+D3 ~ GPIO00
+D4 ~ GPIO02
+
+D5 ~ GPIO14
+D6 ~ GPIO12
+D7 ~ GPIO13
+D8 ~ GPIO15
