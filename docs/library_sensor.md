@@ -504,6 +504,31 @@ float getLight(){
 }
 ```
 
+### 16. Chuyển Động
+
+Trả lại 1 khi có chuyển động và 0 khi không có chuyển động.
+
+```cpp
+int InputPin = 02;   //using digital pin10 as input
+bool Pin_Status = LOW;
+bool PIR_State = LOW; //LOW = no motion, HIGH = motion
+
+void setup()
+{
+  pinMode(InputPin, INPUT);  //input declaration
+  Serial.begin(115200);
+}
+void loop()
+{
+  Pin_Status = digitalRead(InputPin);
+  Serial.println(Pin_Status);
+  delay(2000);
+}
+
+```
+
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.png)
+
 ## Danh Sách các code đã làm
 
 1. Code đăng ký newDevice lên topic của mqtt sử dụng EEPROM để sẽ chỉ gửi đăng ký topic này một lần duy nhất cho tới khi nhận được trả về xác nhận đã đăng ký thành công.
