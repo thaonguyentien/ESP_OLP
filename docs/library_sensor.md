@@ -558,6 +558,7 @@ float getLight(){
 [https://github.com/NTT-TNN/ESP_OLP/blob/master/example/test_dht11/test_dht11.ino](https://github.com/NTT-TNN/ESP_OLP/blob/master/example/test_dht11/test_dht11.ino)
 
 
+```
 D0 ~ GPIO16
 D1 ~ GPIO05
 D2 ~ GPIO04
@@ -568,3 +569,7 @@ D5 ~ GPIO14
 D6 ~ GPIO12
 D7 ~ GPIO13
 D8 ~ GPIO15
+```
+
+
+## A0 ?
