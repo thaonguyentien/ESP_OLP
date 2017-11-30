@@ -1,6 +1,5 @@
 
-
-int InputPin = A0;   //using digital pin10 as input
+int movePin = 02;   //using digital pin10 as input
 bool Pin_Status = LOW;
 bool PIR_State = LOW; //LOW = no motion, HIGH = motion
 
@@ -11,7 +10,7 @@ void setup()
 }
 void loop()
 {
-  Pin_Status = analogRead(InputPin);
+  movePin = digitalRead(InputPin);
   Serial.println(Pin_Status);
   delay(2000);
 }

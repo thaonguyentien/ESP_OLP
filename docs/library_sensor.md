@@ -227,7 +227,9 @@ loop(){
     }
     client.loop();
     // Publish noi dung theo topic icse/sensor
-    client.publish("icse/sensor",JSONmessageBuffer);
+    char dataMessage[500];
+    jsonData.printTo(dataMessage, sizeof(dataMessage));// Chuyen tu json sang String de pub
+    client.publish("icse/sensor",dataMessage);
 }
 
 ```
@@ -317,7 +319,7 @@ IPAddress local_IP(192,168,4,22);
 IPAddress gateway(192,168,4,9);
 IPAddress subnet(255,255,255,0);
 
-Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "Ready" : "Failed!");
+Serial.println(WiFi.softAPConfig(local_IP, gachar dataMessage[500];teway, subnet) ? "Ready" : "Failed!");
 
 Serial.print("Setting soft-AP ... ");
 Serial.println(WiFi.softAP("HPCC_ESP_1","hpcc_iot") ? "Ready" : "Failed!");
@@ -332,7 +334,7 @@ Serial.println(WiFi.softAPIP());
 Xung là các trạng thái cao/thấp về mức điện áp được lặp đi lặp lại. Một xung được đặc trưng bởi tần số và chu kỳ.
 
 - Tần số là số lần lặp trong một đơn vị thời gian. Đơn vị là Hz, tức là số lần lặp trong 1 giây.
-- Chu kỳ xung cho biết trong 1 dao động có bao nhiêu thời gian điện áp ở mức cao bao nhiêu thời gian điện áp ở mức thấp. Cụ thể liên hệ với arduino như bảng sau:
+- Chu kỳ xung cho biết trong 1 dao động có bachar dataMessage[500];o nhiêu thời gian điện áp ở mức cao bao nhiêu thời gian điện áp ở mức thấp. Cụ thể liên hệ với arduino như bảng sau:
 
 AnalogWrite | Tỷ lệ | Chu kỳ xung
 ---------|----------|---------
@@ -357,7 +359,7 @@ Có 3 bộ nhớ:
 Flash và EEPROM là vùng nhớ tồn tại cả khi mất điện. SRAM sẽ mất khi mất điện.
 
 Dung lượng bộ nhớ ATmega328:
-
+char dataMessage[500];
 - Flash  32k bytes (of which .5k is used for the bootloader)
 - SRAM   2k bytes
 - EEPROM 1k byte
@@ -370,7 +372,7 @@ Modules ESP8266 có 4 chế độ Sleep:
 - Light-sleep
 - Deep-sleep
 
-Bảng dưới đây cho thấy sự khác nhau giữa 3 chế độ sleep
+Bảng dưới đây cho thấy sự khác nhau giữa 3 cchar dataMessage[500];hế độ sleep
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/esp8266_sleep_options.png)
 
 - No-sleep: Chế độ này sẽ giữ mọi thứ ở trạng thái on.
@@ -403,7 +405,7 @@ void setup() {
   ESP.deepSleep(20e6); // 20e6 is 20 microseconds
 }
 
-void loop() {
+void loop() {char dataMessage[500];
 }
 ```
 
@@ -437,6 +439,7 @@ void loop() {
 }
 
 ```
+
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png)
 
 ### 14. Cảm biến mưa
@@ -509,7 +512,7 @@ float getLight(){
 Trả lại 1 khi có chuyển động và 0 khi không có chuyển động.
 
 ```cpp
-int InputPin = 02;   //using digital pin10 as input
+int movePin = 02;   //using digital pin10 as input
 bool Pin_Status = LOW;
 bool PIR_State = LOW; //LOW = no motion, HIGH = motion
 
@@ -520,7 +523,7 @@ void setup()
 }
 void loop()
 {
-  Pin_Status = digitalRead(InputPin);
+  movePin = digitalRead(InputPin);
   Serial.println(Pin_Status);
   delay(2000);
 }
