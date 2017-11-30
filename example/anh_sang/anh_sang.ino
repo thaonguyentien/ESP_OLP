@@ -1,5 +1,3 @@
-
-
 int val = 0;         // variable to store the read value
 void setup() {
   Serial.begin(115200);
