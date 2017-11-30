@@ -8,7 +8,7 @@ Giá trị trả về dạng số thực.
 
 #include <DHT.h>
 
-#define DHTPIN 16   // Sử dụng pin 16 để đọc dữ liệu từ cảm biến
+#define DHTPIN 4   // Sử dụng pin 16 để đọc dữ liệu từ cảm biến
 #define DHTTYPE DHT11 // Loại cảm biến ở đây là DHT11
 DHT dht(DHTPIN, DHTTYPE);
 

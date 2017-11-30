@@ -1,6 +1,6 @@
 #include <DHT.h>
 #include <Wire.h>
-#define DHTPIN 16     // what digital pin we're connected to
+#define DHTPIN 4    // what digital pin we're connected to
 #define DHTTYPE DHT11   
 DHT dht(DHTPIN, DHTTYPE);
 void setup() {
