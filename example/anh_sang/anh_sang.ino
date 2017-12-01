@@ -6,8 +6,8 @@ void setup() {
 }
 
 void loop() {
-  val = analogRead(A0);   // variable to read the value input
-  Serial.print(val);
+  val = analogRead(A0);   // variable to read the value input chân ADC trên adruino
+  Serial.println(val);
 
 
 }

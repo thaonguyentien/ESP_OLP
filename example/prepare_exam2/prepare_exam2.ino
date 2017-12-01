@@ -12,16 +12,16 @@
 SH1106  display(0x3c, 4, 5);
 
 BH1750 lightMeter;
-const char* default_mqtt_server = "192.168.1.105";
+const char* default_mqtt_server = "192.168.1.103";
 const char* default_mqtt_port = "1883";
 
 char mqtt_server[255];
 char mqtt_port[6];
 
 const char* topic_pub="bkcloud/data";
-const char* topic_sub="bkcloud/60:01:94:34:AB:AC/action";
+const char* topic_sub="";
 const char* topic_new="bkcloud/newDevice";
-char* macAdd="";
+const char* macAdd="";
 unsigned long previousMillis1 = 0;
 unsigned long previousMillis2 = 0; 
 const long intervalSendData = 5000;
@@ -107,7 +107,12 @@ void reconnect() {
       int length = strlen(message);
       boolean retained = true;     
       client.publish(topic_pub,"1");
+      Serial.println(WiFi.macAddress());
+      String mac=WiFi.macAddress();
+      String topic_sub_string="bkcloud/"+mac+"/action";
+      topic_sub=topic_sub_string.c_str();
       client.subscribe(topic_sub);
+      Serial.println(topic_sub);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -143,13 +148,11 @@ void setup() {
     WiFiManagerParameter custom_mqtt_port("port", "mqtt port", default_mqtt_port, 6);
     wifiManager.addParameter(&custom_mqtt_server); 
     wifiManager.addParameter(&custom_mqtt_port);
-    
-    
-    Serial.println(WiFi.macAddress());
+
     pinMode(movePin, INPUT);  //input declaration
     pinMode(ledPin, OUTPUT);
     myservo1.attach(SERVO_PIN);
-    wifiManager.resetSettings();//  xóa cmt 
+//    wifiManager.resetSettings();//  xóa cmt 
     if (!wifiManager.autoConnect("THAO_ESP")) {
       Serial.println("failed to connect, we should reset as see if it connects");
       delay(3000);
@@ -158,6 +161,7 @@ void setup() {
     } 
     dht.begin();
     lightMeter.begin();
+    
     Serial.println("connected...yeey :)");
     strcpy(mqtt_server, custom_mqtt_server.getValue());
     strcpy(mqtt_port, custom_mqtt_port.getValue());

@@ -113,7 +113,7 @@ root.printTo(Serial);
 // {"sensor":"gps","time":1351824120,"data":[48.756080,2.302038]}
 ```
 
-### Notes: Có thể tạo một json rồi add làm một phần tử của json khác.
+### Notes: Có thể tạo một json rồi add làm một phần tử của json khác
 
 ## 4. OLED
 
@@ -146,6 +146,21 @@ void loop(){
 
 - Sử dụng digitalRead để đọc dữ liệu trả về trên con cảm biến ánh sáng. Giá trị trả về sẽ là 0 hoặc 1.
 - Sử dụng analogRead để đọc dữ liêu analog trả về trên con cảm biến ảnh sáng.
+
+```cpp
+int val = 0;         // variable to store the read value
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  val = analogRead(A0);   // variable to read the value input chân ADC trên adruino
+  Serial.println(val);
+}
+
+```
+
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/sensor-photodiode.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/sensor-photodiode.jpg)
 
 ## 6. Kết nối wifi
 
@@ -532,6 +547,26 @@ void loop()
 
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/chuyen_dong_bb.png)
 
+### 17. Relay
+
+```cpp
+//Luu y ko cam relay trong luc nap code, chi cam sau khi nap xong
+
+int pin=2;
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(pin,OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  delay(2000);
+  digitalWrite(pin,HIGH);
+  delay(2000);
+  digitalWrite(pin,LOW);
+}
+
+```
 ## Danh Sách các code đã làm
 
 1. Code đăng ký newDevice lên topic của mqtt sử dụng EEPROM để sẽ chỉ gửi đăng ký topic này một lần duy nhất cho tới khi nhận được trả về xác nhận đã đăng ký thành công.
