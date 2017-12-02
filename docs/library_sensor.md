@@ -14,6 +14,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void setup(){
     dht.begin();// Trong hàm setup() để khởi tạo.
+     Serial.begin(115200);
 }
 
 float getTemperature(){
@@ -22,6 +23,11 @@ float getTemperature(){
 
 float getHumodity(){
   return dht.readHumidity();  // Đọc độ ẩm từ cảm biến
+}
+
+void loop(){
+  Serial.println(getLight());
+  delay(2000);
 }
 
 ```
@@ -522,23 +528,26 @@ float getLight(){
 }
 ```
 
+![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/bh1750_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/bh1750_bb.jpg)
+
 ### 16. Chuyển Động
 
 Trả lại 1 khi có chuyển động và 0 khi không có chuyển động.
 
 ```cpp
+
+
 int movePin = 02;   //using digital pin10 as input
 bool Pin_Status = LOW;
-bool PIR_State = LOW; //LOW = no motion, HIGH = motion
 
 void setup()
 {
-  pinMode(InputPin, INPUT);  //input declaration
+  pinMode(movePin, INPUT);  //input declaration
   Serial.begin(115200);
 }
 void loop()
 {
-  movePin = digitalRead(InputPin);
+  Pin_Status = digitalRead(movePin);
   Serial.println(Pin_Status);
   delay(2000);
 }

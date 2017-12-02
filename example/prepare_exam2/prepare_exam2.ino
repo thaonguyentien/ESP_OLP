@@ -41,7 +41,7 @@ int ledPin = 12;
 Servo myservo1;
 
 #define DHTPIN 4   // Sử dụng pin 4 để đọc dữ liệu từ cảm biến
-#define DHTTYPE DHT22// Loại cảm biến ở đây là DHT11
+#define DHTTYPE DHT11// Loại cảm biến ở đây là DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
 
