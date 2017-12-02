@@ -15,6 +15,11 @@
     1. Upload speed: Chọn cao nhất, nếu nạp không được chọn thấp dần
     `http://arduino.esp8266.com/stable/package_esp8266com_index.json` vào Additional Board Manager URLs
     ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/config.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/config.png)
+1. Cài đặt thư viện
+    1. Mở Sketch -> Include Library -> Manage Libraries
+    1. Nhập tên thư viện cần cài đặt
+    1. Chọn phiên bản thư viện cần cài đặt
+    1. Nhấn install
 1. Ấn `Ctrl+Shift+M` để mở `Serial Monitor`
 1. Ấn `Ctrl+U` để nạp code.
 1. Sử dụng điện thoại chọn Wifi được phát ra bởi board(OLP_BKCLOUD) sau đó cấu hình wifi + mqtt server + mqtt port cho module như trong hình
