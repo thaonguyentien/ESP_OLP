@@ -178,7 +178,6 @@ const char* password = "thao0983451175";
 
 void setup(){
     WiFi.begin(ssid, password);
-  WiFi.config(staticIP, gateway, subnet);
   while (WiFi.status() != WL_CONNECTED)
   {
     delay(500);
@@ -273,7 +272,7 @@ Sử dụng web server để cho phép nhận vào wifi và mqtt server
 
 const char* default_mqtt_server = "192.168.1.100";
 const char* default_mqtt_port = "1883";
-
+https://github.com/NTT-TNN/ESP_OLP/blob/master/docs/images/bh1750_bb.png
 
 void setup() {
     Serial.begin(115200);
@@ -464,6 +463,7 @@ void loop() {
 ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/servo_bb.png)
 
 ### 14. Cảm biến mưa
+
 Lượng mưa càng lớn số trả về càng nhỏ
 
 ```cpp
@@ -527,8 +527,7 @@ float getLight(){
   return lightMeter.readLightLevel() ;
 }
 ```
-
-![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/bh1750_bb.jpg](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/bh1750_bb.jpg)
+![https://github.com/NTT-TNN/ESP_OLP/blob/master/docs/images/bh1750_bb.png](https://github.com/NTT-TNN/ESP_OLP/blob/master/docs/images/bh1750_bb.png)
 
 ### 16. Chuyển Động
 
@@ -644,4 +643,4 @@ D8 ~ GPIO15
 ```
 
 
-## A0 ?
+## A0 ~ ADC
