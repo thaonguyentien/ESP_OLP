@@ -12,7 +12,7 @@
 SH1106  display(0x3c, 4, 5);
 
 BH1750 lightMeter;
-const char* default_mqtt_server = "192.168.1.103";
+const char* default_mqtt_server = "localhost";
 const char* default_mqtt_port = "1883";
 
 char mqtt_server[255];
@@ -31,7 +31,18 @@ boolean isRegister=false;
 WiFiClient espClient;
 
 PubSubClient client(espClient);
-
+String mac2String(byte ar[])
+{
+  String s;
+  for (byte i = 0; i < 6; ++i)
+  {
+    char buf[3];
+//    sprintf(buf, "%2X", cliMacAddr[i]);
+    s += buf;
+    if (i < 5) s += ':';
+  }
+  return s;
+}
 
 char dataMessage[500];
 int movePin = 2;   //using digital pin10 as input
@@ -67,7 +78,18 @@ void callback(char* topic, byte* payload, unsigned int length) {
       if(strcmp(type,"register")==0){
         const char* status1 = root["status"];
         if(strcmp(status1,"OK")==0){
-          isRegister=true;
+          isRegister=true;String mac2String(byte ar[])
+{
+  String s;
+  for (byte i = 0; i < 6; ++i)
+  {
+    char buf[3];
+//    sprintf(buf, "%2X", cliMacAddr[i]);
+    s += buf;
+    if (i < 5) s += ':';
+  }
+  return s;
+}
           Serial.println("Register");
         }
       }
@@ -152,7 +174,7 @@ void setup() {
     pinMode(movePin, INPUT);  //input declaration
     pinMode(ledPin, OUTPUT);
     myservo1.attach(SERVO_PIN);
-//    wifiManager.resetSettings();//  xóa cmt 
+//    wifiManager.resetSettings(d);//  xóa cmt 
     if (!wifiManager.autoConnect("THAO_ESP")) {
       Serial.println("failed to connect, we should reset as see if it connects");
       delay(3000);
@@ -222,7 +244,18 @@ void sendRegister(){
   
   StaticJsonBuffer<100> jsonBuffer2;
   JsonObject& humidity = jsonBuffer2.createObject();
-  humidity["name"] = "DHT11-h";
+  humidity["name"] = "DHT11-h";String mac2String(byte ar[])
+{
+  String s;
+  for (byte i = 0; i < 6; ++i)
+  {
+    char buf[3];
+//    sprintf(buf, "%2X", cliMacAddr[i]);
+    s += buf;
+    if (i < 5) s += ':';
+  }
+  return s;
+}
   humidity["unit"] = "%";
 
   StaticJsonBuffer<100> jsonBuffer3;
@@ -255,7 +288,18 @@ void sendMove(){
   JsonObject& root = jsonBuffer.createObject();
   root["macAddr"] = WiFi.macAddress();
   root["type"] = "motion";
-  char dataMessage[200];
+  char dataMessage[200];String mac2String(byte ar[])
+{
+  String s;
+  for (byte i = 0; i < 6; ++i)
+  {
+    char buf[3];
+//    sprintf(buf, "%2X", cliMacAddr[i]);
+    s += buf;
+    if (i < 5) s += ':';
+  }
+  return s;
+}
   root.printTo(dataMessage, sizeof(dataMessage));// Chuyen tu json sang String de pub
   client.publish(topic_pub,dataMessage);
 }
@@ -317,16 +361,4 @@ float getLight(){
   return lightMeter.readLightLevel() ;
 }
 
-String mac2String(byte ar[])
-{
-  String s;
-  for (byte i = 0; i < 6; ++i)
-  {
-    char buf[3];
-//    sprintf(buf, "%2X", cliMacAddr[i]);
-    s += buf;
-    if (i < 5) s += ':';
-  }
-  return s;
-}
 
