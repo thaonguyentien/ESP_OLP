@@ -23,8 +23,8 @@
 1. Ấn `Ctrl+Shift+M` để mở `Serial Monitor`
 1. Ấn `Ctrl+U` để nạp code.
 1. Sử dụng điện thoại chọn Wifi được phát ra bởi board(OLP_BKCLOUD) sau đó cấu hình wifi + mqtt server + mqtt port cho module như trong hình
-    1. [https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png)
-    1. [https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png)
-    1. [https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png)
-    1. [https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png)
+    1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png)
+    1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png)
+    1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png)
+    1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png)
 1. Ấn save.
