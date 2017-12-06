@@ -26,5 +26,5 @@
     1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_1.png)
     1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_2.png)
     1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_3.png)
-    1. ![https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png)
+    1. !d[https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png](https://raw.githubusercontent.com/NTT-TNN/ESP_OLP/master/docs/images/smartwifi_4.png)
 1. Ấn save.

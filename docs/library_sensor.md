@@ -8,7 +8,7 @@ Giá trị trả về dạng số thực.
 
 #include <DHT.h>
 
-#define DHTPIN 4   // Sử dụng pin 16 để đọc dữ liệu từ cảm biến
+#define DHTPIN 4   // Sử dụng pin 4 để đọc dữ liệu từ cảm biến
 #define DHTTYPE DHT11 // Loại cảm biến ở đây là DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -21,12 +21,13 @@ float getTemperature(){
   return dht.readTemperature();
 }
 
-float getHumodity(){
+float getHumidity(){
   return dht.readHumidity();  // Đọc độ ẩm từ cảm biến
 }
 
 void loop(){
-  Serial.println(getLight());
+  Serial.println(getTemperature());
+  Serial.println(getHumidity());
   delay(2000);
 }
 
