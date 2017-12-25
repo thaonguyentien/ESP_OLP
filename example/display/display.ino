@@ -15,8 +15,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   Serial.print("  Display \n");
   display.clear();
-  display.drawString(0, 0, "display");
+//  display.drawString(0, 0, "display");
   display.display();
-  delay(1000);                  // waits for a second
+//  delay(1000);                  // waits for a second
      
 }
