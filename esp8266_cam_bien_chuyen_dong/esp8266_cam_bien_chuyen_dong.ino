@@ -15,10 +15,10 @@ IPAddress staticIP(192,168,60,174);
 IPAddress gateway(192,168,60,1);
 IPAddress subnet(255,255,255,0);
 
-//const char *ssid =  "HPCC_IOT";     /// replace with your wifi ssid and wpa2 key.
-//const char *pass =  "hpcc_iot";/
-const char* ssid = "NTT_TNN_1";
-const char* pass = "thao0983451175";
+const char *ssid =  "HPCC_IOT";     /// replace with your wifi ssid and wpa2 key.
+const char *pass =  "hpcc_iot";
+//const char* ssid = "NTT_TNN_1";/
+//const char* pass = "thao0983451175";/
 
 WiFiClient ESPclient;
 PubSubClient client(ESPclient);
@@ -48,7 +48,7 @@ void setup_wifi(){
   Serial.println(ssid); 
  
   WiFi.begin(ssid, pass);
-//  WiFi.config(staticIP, gateway, subnet); 
+  WiFi.config(staticIP, gateway, subnet); 
   
   while (WiFi.status() != WL_CONNECTED) 
   {
