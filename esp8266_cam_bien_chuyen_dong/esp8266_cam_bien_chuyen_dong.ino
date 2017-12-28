@@ -114,6 +114,7 @@ void loop()
   if (!client.connected()){
     reconnect();
   }
+  
   client.loop();
   if(mySerial.available() > 0){
     person = mySerial.read();
